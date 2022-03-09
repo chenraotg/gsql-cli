@@ -18,9 +18,11 @@
     "commander": "^9.0.0",
     "download-git-repo": "^3.0.2",
     "fs-extra": "^10.0.1",
+    "gunzip-maybe": "^1.4.2",
     "handlebars": "^4.7.7",
     "inquirer": "^8.2.0",
     "ora": "^5.4.1",
-    "progress": "^2.0.3"
+    "progress": "^2.0.3",
+    "tar-stream": "^2.2.0"
   }
 }

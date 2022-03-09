@@ -7,23 +7,17 @@ const fs = require('fs-extra');
 
 const githubAccount = 'tianqingfish';
 
-const template2Path = {
-  'tigergraph-be-template': 'web-server',
-  'tigergraph-fe-template': 'web-ui'
-}
-
 function pullTemplate(projectPath, templateName, params) {
   const spinner = ora(chalk.cyan(`downloading ${templateName}, please wait...`));
   spinner.start();
-  const downloadPath = path.join(projectPath, template2Path[templateName]);
   return new Promise((resolve, reject) => {
-    download(`${githubAccount}/${templateName}`, downloadPath, {clone: true}, (err) => {
+    download(`${githubAccount}/${templateName}`, projectPath, {clone: true}, (err) => {
       if (!err) {
         spinner.succeed();
         
         // replace projectName, author, desc of package.json
-        const packagePath = path.join(downloadPath, 'package.json');
-        writePackageJson(packagePath, params);
+        const readmePath = path.join(projectPath, 'README.md');
+        writePackageJson(readmePath, params);
 
         console.log(chalk.green(`${templateName} init success`));
         resolve();
@@ -34,14 +28,14 @@ function pullTemplate(projectPath, templateName, params) {
   });
 }
 
-function writePackageJson(packagePath, params) {
-  if (fs.existsSync(packagePath)) {
-    const content = fs.readFileSync(packagePath).toString();
+function writePackageJson(readmePath, params) {
+  if (fs.existsSync(readmePath)) {
+    const content = fs.readFileSync(readmePath).toString();
     const template = handlebars.compile(content);
     const result = template(params);
-    fs.writeFileSync(packagePath, result);
+    fs.writeFileSync(readmePath, result);
   } else {
-    console.log(chalk.yellow('warning: no package.json found'));
+    console.log(chalk.yellow('warning: no readme.md found'));
   }
 }
 
