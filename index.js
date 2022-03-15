@@ -23,19 +23,6 @@ const Inquirer = [
     name: 'author',
     message: 'who is the author?',
     default: 'tigergraph'
-  },
-  {
-    name: 'installTigergraph',
-    message: 'do you want to install tigergraph, it may take long time(y/n)',
-    choices: ['y', 'n'],
-    default: 'n'
-  },
-  {
-    name: 'graphQL',
-    type: '',
-    message: 'do you want to use graphQL(urql)(y/n)?',
-    choices: ['y', 'n'],
-    default: 'n'
   }
 ];
 
@@ -47,10 +34,18 @@ program.command('init solution').description('init a solution').action((name, op
 
     // install template
     pullTemplate(projectPath, 'tigergraph-solution-template', ret).then(() => {
-      // install tigergraph
-      if (ret.installTigergraph === 'y') {
-        installTigergraph(ret.name);
-      }
+      // init git for solution, .git will be generated on root path
+      exec(`cd ${ret.name} && git init`, (err, stdout, stderr) => {
+        if (err) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+      })
     });
   });
 })
