@@ -11,7 +11,7 @@ function pullTemplate(projectPath, templateName, params) {
   const spinner = ora(chalk.cyan(`downloading ${templateName}, please wait...`));
   spinner.start();
   return new Promise((resolve, reject) => {
-    download(`${githubAccount}/${templateName}`, projectPath, {clone: true}, (err) => {
+    download(`${githubAccount}/${templateName}`, projectPath, {clone: false}, (err) => {
       if (!err) {
         spinner.succeed();
         
