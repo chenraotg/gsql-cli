@@ -12,7 +12,7 @@ const { pullTemplate } = require('./templates');
 const Inquirer = [
   {
     name: 'name',
-    message: 'what\'s the name of new solutionq?'
+    message: 'what\'s the name of new solution?'
   },
   {
     name: 'description',
@@ -33,9 +33,8 @@ program.command('init solution').description('init a solution').action((name, op
 
     // install template
     pullTemplate(projectPath, 'tigergraph-solution-template', ret).then(() => {
-      process.env.DIRNAME = __dirname;
       // init git & set init.sh excutable
-      exec(`cd ${__dirname}/${ret.name} && chmod 777 init.sh && git init`, (err) => {
+      exec(`cd ${projectPath} && chmod 777 init.sh && git init`, (err) => {
         if (err) {
           console.error('error:', err);
         } else {
