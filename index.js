@@ -38,7 +38,7 @@ program.command('init solution').description('init a solution').action((name, op
         if (err) {
           console.error('error:', err);
         } else {
-          const task = exec(`sh ${__dirname}/${ret.name}/init.sh`, (err) => {
+          const task = exec(`cd ${projectPath} && ./init.sh`, (err) => {
             if (err) {
               console.error('error:', err);
             }
