@@ -3,17 +3,16 @@
 const {program} = require('commander');
 program.version(require('./package.json').version, '-v, --version');
 const inquirer = require('inquirer');
-const { exec, execSync } = require('child_process');
+const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs-extra');
 
-const { installTigergraph } = require('./install-tigergraph');
 const { pullTemplate } = require('./templates');
 
 const Inquirer = [
   {
     name: 'name',
-    message: 'what\'s the name of new solution?'
+    message: 'what\'s the name of new solutionq?'
   },
   {
     name: 'description',
@@ -34,17 +33,21 @@ program.command('init solution').description('init a solution').action((name, op
 
     // install template
     pullTemplate(projectPath, 'tigergraph-solution-template', ret).then(() => {
-      // init git for solution, .git will be generated on root path
-      exec(`cd ${ret.name} && git init`, (err, stdout, stderr) => {
+      process.env.DIRNAME = __dirname;
+      // init git & set init.sh excutable
+      exec(`cd ${__dirname}/${ret.name} && chmod 777 init.sh && git init`, (err) => {
         if (err) {
-          console.log(`error: ${error.message}`);
-          return;
+          console.error('error:', err);
+        } else {
+          const task = exec(`sh ${__dirname}/${ret.name}/init.sh`, (err) => {
+            if (err) {
+              console.error('error:', err);
+            }
+          })
+          task.stdout.on('data', chunk => {
+            console.log(chunk);
+          })
         }
-        if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
       })
     });
   });
