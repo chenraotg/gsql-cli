@@ -25,7 +25,7 @@ const Inquirer = [
   }
 ];
 
-program.command('init solution').description('init a solution').action((name, opts) => {
+program.command('init').description('init application').action((name, opts) => {
   inquirer.prompt(Inquirer)
   .then((ret) => {
     const projectPath = path.join('./', ret.name);

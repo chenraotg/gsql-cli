@@ -1,10 +1,10 @@
 {
-  "name": "gsql-cli",
-  "version": "0.1.10",
+  "name": "tg-app-cli",
+  "version": "0.1.11",
   "description": "",
   "main": "index.js",
   "bin": {
-    "tiger": "index.js"
+    "tgapp": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
